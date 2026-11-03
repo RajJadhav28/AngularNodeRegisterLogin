@@ -1,0 +1,49 @@
+require('./routes/authRoutes') loads the code from the authRoutes.js file into app.js. Without it, app.js has no idea that file exists, so /signup and /login would give “Cannot GET /signup”. It works like an import in Java.
+
+How the whole project runs, in order
+
+Step 1: node app.js starts. Node reads app.js from top to bottom.
+
+Step 2: The first lines of app.js load libraries.
+
+javascript
+const express = require('express');
+const mongoose = require('mongoose');
+const authRoutes = require('./routes/authRoutes');
+
+When Node reaches the third line, it pauses app.js and goes to run routes/authRoutes.js.
+
+Step 3: authRoutes.js runs.
+
+javascript
+const { Router } = require('express');
+const authController = require('../controllers/authController');
+const router = Router();
+
+Here it loads authController.js, which is another file, so Node pauses again.
+
+Step 4: authController.js runs. This file holds the functions (signup_get, signup_post, login_get, login_post). It puts them in module.exports so other files can use them.
+
+Step 5: Back in authRoutes.js. Now it can use those functions:
+
+javascript
+router.get('/signup', authController.signup_get);
+
+This says: when a GET request comes to /signup, run signup_get. At the end, module.exports = router hands the router to whoever required this file.
+
+Step 6: Back in app.js. The variable authRoutes now holds that router (a bundle of 4 routes). app.js then continues:
+
+Creates the app: const app = express()
+Sets up static files (public) and the EJS view engine
+Connects to MongoDB, and starts the server on port 3000 once connected
+Defines / and /smoothies
+Runs app.use(authRoutes), which plugs the 4 auth routes into the app
+So why is the require needed?
+
+Because app.use(authRoutes) needs the authRoutes variable. The require line creates that variable. If you removed it, you’d get ReferenceError: authRoutes is not defined.
+
+It also keeps app.js clean. Instead of writing all the signup and login routes inside app.js, you keep them in their own file and attach them with just two lines. That’s the point of the routes and controllers folders.
+
+When someone visits /signup
+
+Browser → app.js (app.use(authRoutes)) → authRoutes.js (finds the matching route) → authController.js (signup_get runs) → renders views/signup.ejs → browser shows the page.
