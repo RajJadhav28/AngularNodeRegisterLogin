@@ -13,7 +13,8 @@ const handleErrors=(err)=>{
 
 
     //validation errors
-    if(err.message.includes('user validation failed')){
+    // if(err.message.includes('user validation failed')){
+     if (err.name === 'ValidationError') {
         Object.values(err.errors).forEach(({properties})=>{
             errors[properties.path]=properties.message;
         });

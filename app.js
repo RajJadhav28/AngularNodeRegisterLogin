@@ -28,3 +28,12 @@ app.get('/', (req, res) => res.render('home'));
 app.get('/smoothies', (req, res) => res.render('smoothies'));
 
 app.use(authRoutes);
+
+app.get('/set-cookie',(req, res)=>{
+  res.setHeader('Set-Cookie', 'newUser=true');
+  res.send('you got the cookie');
+});
+
+app.get('/read-cookie',(req, res)=>{
+  console.log(req.headers.cookie);
+})
