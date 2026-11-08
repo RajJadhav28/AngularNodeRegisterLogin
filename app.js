@@ -6,7 +6,7 @@ const app = express();
 
 // middleware
 app.use(express.static('public'));
-app.use(express.json());
+app.use(express.json());// it is used to parse the incoming request body as JSON data, allowing you to access the data in req.body.
 
 // view engine
 app.set('view engine', 'ejs');
@@ -27,7 +27,7 @@ mongoose.connect(dbURI)
 app.get('/', (req, res) => res.render('home'));
 app.get('/smoothies', (req, res) => res.render('smoothies'));
 
-app.use(authRoutes);
+app.use(authRoutes);//it is written like this because we are using router in authRoutes.js file
 
 app.get('/set-cookie',(req, res)=>{
   res.setHeader('Set-Cookie', 'newUser=true');

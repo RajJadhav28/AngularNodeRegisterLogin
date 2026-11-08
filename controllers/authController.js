@@ -3,7 +3,7 @@ const User=require('../models/Users');
 // handle errors
 const handleErrors=(err)=>{
     console.log(err.message, err.code);
-    let errors={email:'', password:''};
+    let errors={email:'', password:''};// initializing an object to store error messages for email and password fields
 
 
     if(err.code===11000){
@@ -44,7 +44,7 @@ module.exports.login_get=(req, res)=>{
 }
 
 module.exports.login_post=(req, res)=>{
-    const { email, password }=req.body;
-    console.log(email, password);
+    const { email, password }=req.body;// desteructuring the email and password from the request body
+    console.log(email, password);// it is used to log the email and password to the console for debugging purposes.
     res.send('user login');
 }
