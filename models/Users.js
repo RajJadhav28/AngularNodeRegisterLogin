@@ -17,14 +17,19 @@ const userSchema=new mongoose.Schema({
 });
 
 // //fire a function after doc saved to db
-// userSchema.post('save', function (doc){
+// userSchema.post('save', function (doc){// after save i want this function to 
+                                          // be called and it will take the document that was just saved as an argument, this function 
+                                          // will fire when ever we save a new user to the database and it will log the document that 
+                                          // was just saved to the console, this is useful for debugging purposes and to see what data 
+                                          // is being saved to the database.
 //     console.log('new user was created & saved', doc);
 //     next();
 // });
 
 // //fire a function before doc saved to db
 // userSchema.pre('save', function (){
-//     console.log('user about to be creadted & saved', this);
+//     console.log('user about to be creadted & saved', this);// this belongs to the local instance of the user before we save it to the database,
+                                                    //  this is useful for debugging purposes and to see what data is being saved to the database.
 //     next();
 // });
 
