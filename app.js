@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const authRoutes = require('./routes/authRoutes');
 const cookieParser = require('cookie-parser');   // declared once, here
+const { requireAuth, checkUser } = require('./middleware/authMiddleware');
 
 const app = express();
 
@@ -23,8 +24,9 @@ mongoose.connect(dbURI)
   .catch((err) => console.log(err));
 
 // routes
+app.get('*', checkUser );   // <-- new line, this will run for all routes, so it should be placed before the other routes
 app.get('/', (req, res) => res.render('home'));
-app.get('/smoothies', (req, res) => res.render('smoothies'));
+app.get('/smoothies', requireAuth, (req, res) => res.render('smoothies'));
 app.get('/welcome', (req, res) => res.render('welcome'));   // <-- new
 app.use(authRoutes);
 

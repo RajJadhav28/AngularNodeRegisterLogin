@@ -46,6 +46,21 @@ userSchema.pre('save', async function () {
     // next();
 });
 
+userSchema.statics.login= async function(email, password){
+    const user= await this.findOne({ email});
+if(user){
+    const auth = await bcrypt.compare(password, user.password);// when we call the login method from the User model, we pass in the
+    // email and password that the user entered in the login form. The method then searches for a user with that email in the database 
+    // using the findOne method. If a user is found, it compares the password entered by the user with the hashed password stored in the 
+    // database using bcrypt's compare method. If the passwords match, it returns the user object. If not, it throws an error indicating 
+    // that the password is incorrect.
+    if(auth){
+        return user;
+    }
+    throw Error('incorrect password');
+}
+throw Error('incorrect email');
+}
 // create a model based on schema
 const User=mongoose.model('user',userSchema);//user over here is the name of the collection in the database
 module.exports=User;
